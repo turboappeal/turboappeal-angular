@@ -96,6 +96,6 @@ export class AuthenticationInterceptor implements IAuthenticationInterceptor {
         return new AuthenticationInterceptor($q, $location, $injector, AuthConfig);
     }
 }
-angular.module('ngTurboAppeal', [])
-.provider('authenticationProvider', AuthenticationProvider)
-.factory('authenticationFactory', ['$q', '$location', '$injector', 'authenticationProvider', AuthenticationInterceptor.Factory]);
+angular.module('turboappealApi', [])
+.provider('turboappealProvider', AuthenticationProvider)
+.factory('turboappealSignature', ['$q', '$location', '$injector', 'turboappealProvider', AuthenticationInterceptor.Factory]);

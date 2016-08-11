@@ -109,9 +109,9 @@
 	    return AuthenticationInterceptor;
 	}());
 	exports.AuthenticationInterceptor = AuthenticationInterceptor;
-	angular.module('ngTurboAppeal', [])
-	    .provider('authenticationProvider', AuthenticationProvider)
-	    .factory('authenticationFactory', ['$q', '$location', '$injector', 'authenticationProvider', AuthenticationInterceptor.Factory]);
+	angular.module('turboappealApi', [])
+	    .provider('turboappealProvider', AuthenticationProvider)
+	    .factory('turboappealSignature', ['$q', '$location', '$injector', 'turboappealProvider', AuthenticationInterceptor.Factory]);
 
 
 /***/ }

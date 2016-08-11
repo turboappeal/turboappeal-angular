@@ -1,6 +1,6 @@
 {
   "name": "turboappeal-angular",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The oficial TurboAppeal Inc. package for autenticating with the API",
   "scripts": {
     "start": "webpack-dev-server --colors --display-error-details --content-base src",
