@@ -29,13 +29,14 @@ After that, you have to configure the interceptor and add it to your httpProvide
 
 ```
 angular.module('myApp', ['turboappealApi'])
-.config(
-function($httpProvider, turboappealProvider){
-
+.run(
+function(turboappealProvider){
 	// Set your application keys provided by TurboAppeal
 	turboappealProvider.setPublicKey('YOUR_PUBLIC_KEY');
 	turboappealProvider.setSecretKey('YOUR_SECRET_KEY');
-
+})
+.config(
+function($httpProvider){
 	// Setup turboappeal as a provider
 	$httpProvider.interceptors.push('turboappealSignature');
 });

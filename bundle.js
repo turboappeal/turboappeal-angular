@@ -62,6 +62,7 @@
 	        this.getSecret = function () {
 	            return _this.privateKey;
 	        };
+	        this.$get.$inject = [];
 	    }
 	    AuthenticationProvider.prototype.$get = function () {
 	        return new AuthenticationProvider;
@@ -76,25 +77,32 @@
 	        this.$q = $q;
 	        this.$location = $location;
 	        this.$injector = $injector;
+	        this.AuthConfig = AuthConfig;
 	        this.request = function (req) {
-	            if (req.skipAuthorization)
+	            _this.publicKey = _this.AuthConfig.getKey();
+	            _this.privateKey = _this.AuthConfig.getSecret();
+	            if (req.skipAuthorization || req.url.indexOf('.turboappeal.com/') == -1)
 	                return req;
 	            req.headers = req.headers || {};
-	            if (req.headers[_this.authKeyHeader])
+	            if (req.headers[_this.authKeyHeader] || !_this.privateKey || !_this.publicKey)
 	                return req;
 	            var timestamp = moment().format('MM/DD/YYYY hh:mm:ss A');
 	            var hashedSig;
 	            req.headers[_this.tsHeader] = timestamp;
 	            req.headers[_this.authKeyHeader] = _this.publicKey;
-	            var shaObj = new jsSHA('SHA-256', "TEXT");
-	            shaObj.setHMACKey(_this.privateKey, "TEXT");
-	            shaObj.update(timestamp + '\n' + req.method + '\n' + req.url.substr(req.url.indexOf('/')));
-	            req.headers[_this.authSigHeader] = shaObj.getHMAC("HEX");
+	            var shaObj = CryptoJS.HmacSHA256(timestamp + '\n' + req.method + '\n' + req.url.substr(req.url.indexOf('/')), _this.privateKey);
+	            req.headers[_this.authSigHeader] = shaObj.toString();
 	            return req;
 	        };
-	        this.requestError = function (requestError) { };
-	        this.response = function (response) { };
-	        this.responseError = function (responseError) { };
+	        this.requestError = function (requestError) {
+	            return requestError;
+	        };
+	        this.response = function (response) {
+	            return response;
+	        };
+	        this.responseError = function (responseError) {
+	            return responseError;
+	        };
 	        this.tsHeader = 'Timestamp';
 	        this.authKeyHeader = 'Authentication-Key';
 	        this.authSigHeader = 'Authentication-Signature';
@@ -105,7 +113,7 @@
 	    AuthenticationInterceptor.Factory = function ($q, $location, $injector, AuthConfig) {
 	        return new AuthenticationInterceptor($q, $location, $injector, AuthConfig);
 	    };
-	    AuthenticationInterceptor.$inject = ['$q', '$location', '$injector', 'authenticationProvider'];
+	    AuthenticationInterceptor.$inject = ['$q', '$location', '$injector', 'turboappealProvider'];
 	    return AuthenticationInterceptor;
 	}());
 	exports.AuthenticationInterceptor = AuthenticationInterceptor;

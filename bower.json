@@ -1,0 +1,19 @@
+{
+  "name": "turboappeal-angular",
+  "description": "The oficial TurboAppeal Inc. package for autenticating with the API",
+  "main": "bundle.js",
+  "authors": "Turbo Appeal Inc. <info@turboappeal.com> (https://www.turboappeal.com/)",
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "turboappeal"
+  ],
+  "homepage": "https://www.turboappeal.com/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
